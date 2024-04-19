@@ -6,16 +6,30 @@ use App\Models\Bookings;
 use Illuminate\Http\Request;
 use App\Http\Resources\BookingResource;
 use App\Http\Requests\StoreBookingRequest;
+use App\Services\BookingQuery;
 
 class BookingsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return BookingResource::collection(Bookings::paginate(5));
+    public function index(Request $request)
+{
+    $filter = new BookingQuery();
+    $queryItems = $filter->transform($request);
+
+    $bookingsQuery = Bookings::query();
+
+    // Apply filters if criteria exist
+    if (!empty($queryItems)) {
+        $bookingsQuery->where($queryItems);
     }
+
+    $bookings = $bookingsQuery->get();
+
+    return BookingResource::collection($bookings);
+}
+
 
     /**
      * Store a newly created resource in storage.

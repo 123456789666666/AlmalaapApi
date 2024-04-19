@@ -13,7 +13,7 @@ class RoomsController extends Controller
      */
     public function index()
     {
-        return RoomResource::collection(Rooms::paginate(5));
+        return RoomResource::collection(Rooms::all());
     }
 
     /**

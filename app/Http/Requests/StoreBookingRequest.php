@@ -22,11 +22,11 @@ class StoreBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => ['required', 'exists:bookings,id'],
+            'customer_id' => ['required', 'exists:customers,id'],
             'room_id' => ['required', 'exists:rooms,id'],
             'booking_date' => ['required', 'date'],
-            'start_time' => ['required', 'date_format:h:i'],
-            'end_time' => ['required', 'date_format:h:i', 'after:start_time'],
+            'start_time' => ['required', 'date_format:H:i:s'],
+            'end_time' => ['required', 'date_format:H:i:s', 'after:start_time'],
         ];
     }
 
